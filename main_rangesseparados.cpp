@@ -6,56 +6,29 @@
 uint16_t* filterData(uint16_t* data, int width, int height, uint16_t range) {
   static uint16_t filtered[9999999];
   int i;
-  uint16_t min = 65535;
-  uint16_t minEsquerda = 65535;
-  uint16_t minDireita = 65535;
-  int meiota = 314;
+  uint16_t min = 65534;
   // uint16_t max, min;
   // max & 0000000000000000;
   // min | 1111111111111111;
 
   for (i=0;i<(width*height);i++){
-    //linha no quadrante esquerdo
-    if (!((data[i]/meiota)%2)) {
-      if (data[i] > 0 && data[i] < minEsquerda) {
-        minEsquerda = data[i];
-    //linha no quadrante direito
-      }
-    } else {
-      if (data[i] > 0 && data[i] < minDireita) {
-        minDireita = data[i];
-      }
+    if (data[i] > 0 && data[i] < min) {
+      min = data[i];
     }
-    //if (data[i] > 0 && data[i] < min) {
-    //  min = data[i];
-   // }
   }
 
   // min = 500;
   // std::cout << "Min: " << min << std::endl;
 
-  uint16_t maxDireita = minDireita + range;
-  uint16_t maxEsquerda = minEsquerda + range;
+  uint16_t max = min + range;
 
   for (i=0;i<(width*height);i++) {
-    if (!((data[i]/meiota)%2)) {
-    // Na esquerda
-      if (data[i] >= maxEsquerda) {
-        filtered[i] = 0;
-      } else if (data[i] <= minEsquerda) {
-        filtered[i] = 0;
-      } else {
-        filtered[i] = 65535;
-      }
+    if (data[i] >= max) {
+      filtered[i] = 0;
+    } else if (data[i] <= min) {
+      filtered[i] = 0;
     } else {
-    // Na direita
-      if (data[i] >= maxDireita) {
-        filtered[i] = 0;
-      } else if (data[i] <= minDireita) {
-        filtered[i] = 0;
-      } else {
-        filtered[i] = 65535;
-      }
+      filtered[i] = 65535;
     }
   }
 
