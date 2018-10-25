@@ -63,7 +63,7 @@ uint16_t* filterData(uint16_t* data, int width, int height, uint16_t range) {
 
 }
 
-double getAxis(cv::Mat data, int filter) {
+int getAxis(cv::Mat data, int filter) {
   int i, j;
   int left = 0;
   int right = 0;
@@ -113,7 +113,7 @@ double getAxis(cv::Mat data, int filter) {
   // std::cout << "Left " << " " << left << " " << nLeft << " " << mLeft << std::endl ;
   // std::cout << "Right " << " " << right << " " << nRight << " " << mRight << std::endl ;
 
-  return (double)(mLeft - mRight);
+  return (int) ((double)(mLeft - mRight) * (127 - (-128)) / (30 - (-30)));
 }
 
 int main(int argc, char** argv)
