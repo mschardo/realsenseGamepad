@@ -69,6 +69,7 @@ int getAxis(cv::Mat data, int filter) {
   int right = 0;
   int nLeft = 0;
   int nRight = 0;
+  int angle;
   float meiota = data.cols/2;
 
   // uint16_t max, min;
@@ -113,7 +114,10 @@ int getAxis(cv::Mat data, int filter) {
   // std::cout << "Left " << " " << left << " " << nLeft << " " << mLeft << std::endl ;
   // std::cout << "Right " << " " << right << " " << nRight << " " << mRight << std::endl ;
 
-  return (int) ((double)(mLeft - mRight) * (127 - (-128)) / (30 - (-30)));
+  angle = (int) ((mLeft - mRight) * (127 - (-128)) / (30 - (-30)));
+  if (angle < -128) { return -128; }
+  else if (angle > 127) { return 127; }
+  else { return angle; }
 }
 
 int main(int argc, char** argv)
